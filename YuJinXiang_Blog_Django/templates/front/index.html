@@ -1,0 +1,64 @@
+{% extends 'front/base.html' %}
+{% block title %}郁金香{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="../../static/front/css/index.css">
+{% endblock %}
+
+{% block body %}
+    <div class="passage">
+        <div class="passage-box">
+            <ul class="ul1">
+                {% for post in posts %}
+                    <li class="li1">
+                        <a href="{{ url('detail', args=[post.id,]) }}" target="_blank">
+                            <h1>{{ post.title }}</h1>
+                        </a>
+                        <div class="passage-top">
+                            <span><img src="../static/images/作者.png"
+                                       alt=""> 作者：{{ post.author.username }}</span>
+                            <span><img src="../static/images/标签.png"
+                                       alt="">&nbsp;板块：{{ post.board.name }}</span>
+                        </div>
+                        <div class="passage-bottom">
+                            <span><img src="../static/images/date.png"
+                                       alt="">发表时间：{{ post.create_time }}</span>
+                            <span><img src="../static/images/书.png"
+                                       alt="">&nbsp;阅读量：{{ post.read_count }}</span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="page">
+                <form action="">
+                    <ul>
+                        {% if current_page != 1 %}
+                            <li><a href="{{ url('index') }}?page={{ current_page-1 }}">&lt;&lt;</a></li>
+                        {% endif %}
+                        {% for page in page_range %}
+                            {% if current_page == page %}
+                                <li>
+                                <li>
+                                    <a style="background-color: #7EFC7E" class="current"
+                                       href="{{ url('index') }}?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ url('index') }}?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if current_page !=total_page %}
+                            <li><a href="{{ url('index') }}?page={{ current_page+1 }}">&gt;&gt;</a></li>
+                        {% endif %}
+                    </ul>
+                    <span>&nbsp;第</span>
+                    <input type="text" name="page">
+                    <span>页</span>
+                    <button>确认
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
